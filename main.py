@@ -2,6 +2,7 @@ import os
 import shutil
 from enum import Enum
 from pathlib import Path
+import argparse
 
 import face_enhancement
 import my_utils
@@ -122,8 +123,17 @@ def main():
     # run('sample_image', 'output/out2', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE)
     # run('input', 'output/scratchbob', sr_scale=2, run_mode=RunMode.RESTORE_ENHANCE, colorize=False, hr_restore=True)
     # run('sample_image', 'output/out3', sr_scale=4, run_mode=RunMode.ONLY_RESTORE)
-    run('input', 'output/soka', sr_scale=4, run_mode=RunMode.ENHANCE_RESTORE, hr_quality=True, hr_restore=True)
-    run('input', 'output/soka2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, hr_quality=True, hr_restore=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input_folder", type=str, default="input", help="Input folder")
+    parser.add_argument("--output_folder", type=str, default="output/soka", help="Output folder")
+    parser.add_argument("--run_mode", type=int, default=1, choices=range(1, 5), help= "Setting run mode, 1-> ENHANCE_RESTORE 2->RESTORE_ENHANCE 3->RESTORE_ONLY 4->ENHANCE_ONLY")
+    parser.add_argument("--sr_scale", type=int, default=4)
+    parser.add_argument("--hr_quality", action='store_true')
+    parser.add_argument("--hr_restore", action='store_true')
+    args = parser.parse_args()
+
+    run(args.input_folder, args.output_folder, sr_scale=args.sr_scale, run_mode=RunMode(args.run_mode), hr_quality=args.hr_quality, hr_restore=args.hr_restore)
+    # run('input', 'output/soka2', sr_scale=4, run_mode=RunMode.RESTORE_ENHANCE, hr_quality=True, hr_restore=True)
 
 
 if __name__ == '__main__':
