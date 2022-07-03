@@ -1,7 +1,7 @@
 # Fail the script if one command fails
 set -e
 
-pip install -r requirements.txt
+#pip install -r requirements.txt
 
 if [[ ! -d 'checkpoints' ]]
 then
